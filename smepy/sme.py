@@ -73,7 +73,7 @@ class Mapping:
             self.target_to_base[target] = base
             self.matches.add(match)
         else:
-            print 'Mapping is not consistent with', match
+            print('Mapping is not consistent with', match)
             raise ValueError
 
     def add_all(self, matches, check_consistency=True):
@@ -195,7 +195,7 @@ def match_expression(exp_1, exp_2):
     pred_2 = exp_2.predicate
     args_1 = exp_1.args
     args_2 = exp_2.args
-    pair_list = [(exp_1, exp_2)] + zip(args_1, args_2)
+    pair_list = [(exp_1, exp_2)] + list(zip(args_1, args_2))
     if all([are_matchable(pair[0], pair[1]) for pair in pair_list]):
         match_list = [Match(pair[0], pair[1]) for pair in pair_list]
         return set(match_list)
@@ -210,7 +210,7 @@ def connect_matches(matches):
         base = match.base
         target = match.target
         if isinstance(base, sc.Expression):
-            arg_pair_list = zip(base.args, target.args)
+            arg_pair_list = list(zip(base.args, target.args))
             for arg_pair in arg_pair_list:
                 if arg_pair in match_dict:
                     child_match = match_dict[arg_pair]
@@ -306,6 +306,6 @@ def topological_sort(graph_dict):
                 del new_graph_dict[node]
                 break
         else:
-            print 'Cyclic graph!'
+            print('Cyclic graph!')
             return
     return sorted_list    

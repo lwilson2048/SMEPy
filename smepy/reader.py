@@ -16,10 +16,10 @@ term_regex = r'''(?mx)
 def parse_sexp(sexp):
     stack = []
     out = []
-    if dbg: print("%-6s %-14s %-44s %-s" % tuple("term value out stack".split()))
+    if dbg: print(("%-6s %-14s %-44s %-s" % tuple("term value out stack".split())))
     for termtypes in re.finditer(term_regex, sexp):
-        term, value = [(t,v) for t,v in termtypes.groupdict().items() if v][0]
-        if dbg: print("%-7s %-14s %-44r %-r" % (term, value, out, stack))
+        term, value = [(t,v) for t,v in list(termtypes.groupdict().items()) if v][0]
+        if dbg: print(("%-7s %-14s %-44r %-r" % (term, value, out, stack)))
         if   term == 'brackl':
             stack.append(out)
             out = []
@@ -70,7 +70,7 @@ def read_meld_file(f_name):
     s_exp_list = read_s_exp_file(f_name)
     mt_list = []
     if not (s_exp_list[0][0] == 'in-microtheory'):
-        print 'Not a microtheory file!'
+        print('Not a microtheory file!')
         raise IOError
     mt_name = s_exp_list[0][1]
     mt_facts = s_exp_list[1:]
